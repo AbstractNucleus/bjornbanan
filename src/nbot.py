@@ -1,5 +1,6 @@
 import discord
 
+
 def nbot():
     bot = discord.Bot(debug_guilds=[802298523214938153])
 
