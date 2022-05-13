@@ -1,4 +1,4 @@
-import createBot
+from src.createBot import createBot
 import os
 from dotenv import load_dotenv
 
