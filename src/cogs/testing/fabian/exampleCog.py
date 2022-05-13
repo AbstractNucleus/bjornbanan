@@ -8,9 +8,14 @@ class exampleCog(commands.Cog):
         self.bot = bot
 
     @bridge.bridge_command()
-    async def hello(self, ctx, a: discord.Option(int)):
-        sum = a
-        await ctx.respond(f"newest, this is a discord comm{sum}and from a cog!")
+    async def hello(self, ctx, a: int, b: str):
+        print(ctx)
+        await ctx.respond(f"d4g, this is a discord comm{sum}and from a{b} cog!")
+
+    @commands.command()
+    async def bbb(self, ctx):
+        print(ctx)
+        await ctx.message.respond(f'monkey')
 
 
 def setup(bot):  # this is called by Pycord to setup the cog
