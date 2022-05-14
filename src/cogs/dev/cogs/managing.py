@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.commands import slash_command, SlashCommandGroup
 import os
 
 
@@ -43,9 +44,14 @@ class CogManagement(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command()
+    @bot.slash_command()
+    async def cogs(self, ctx: commands.Context):
+        if ctx.invoked_subcommand is None:
+            await ctx.respond("Byebye")
+
+    '''@cogs.command()
     async def enable(self, ctx, hej):
-        await ctx.respond(hej)
+        await ctx.respond(hej)'''
 
 
 def setup(bot):
