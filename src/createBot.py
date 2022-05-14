@@ -4,6 +4,7 @@ from discord.ext import commands
 
 def initBot(bot):
     bot.load_extension("src.cogs.dev.cogs.managing")
+    bot.load_extension("src.cogs.testing.fabian.git")
     return bot
 
 

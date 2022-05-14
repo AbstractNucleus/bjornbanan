@@ -27,7 +27,7 @@
 - cogManager[]
   Enable/disable/reload cogs, both induvidially and all.
 - errorHandling[]
-- git[]
+- git[x](not tested)
   Pull from remote
 - mongoDbUpdate[]
   Dont know why
