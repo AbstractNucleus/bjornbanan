@@ -7,13 +7,12 @@ def initBot(bot):
     return bot
 
 
-def nbot(prefix):
+def createBot():
 
     bot = initBot(
         discord.Bot(
             debug_guilds=[802298523214938153],
             help_command=commands.MinimalHelpCommand(),
-            command_prefix=prefix,
             intents=discord.Intents.all(),
         )
     )

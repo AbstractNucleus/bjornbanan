@@ -44,7 +44,8 @@ class CogManagement(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bot.slash_command()
+    @SlashCommandGroup(name="hej", description="då")
+    @slash_command()
     async def cogs(self, ctx: commands.Context):
         if ctx.invoked_subcommand is None:
             await ctx.respond("Byebye")
