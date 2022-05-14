@@ -33,7 +33,7 @@
   online, offline etc
 - activity []
   game, watcheiong etc
-- rateLimit[]
+- rateLimit[X] #TODO test it
   Error when being ratelimted
 - upTime[x]
 
