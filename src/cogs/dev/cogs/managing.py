@@ -1,8 +1,7 @@
 import discord
 from discord.ext import commands
-from discord.commands import SlashCommandGroup, Option
+from discord.commands import SlashCommandGroup, SlashCommand
 import os
-from asyncio import sleep
 
 
 def getAllCogs():
@@ -29,6 +28,11 @@ def getAllCogs():
 
 
 class CogLoaderView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=20)
+
+    async def on_timeout(self):
+        await self.message.delete()
 
     @discord.ui.select(
         placeholder="Load",
@@ -50,6 +54,8 @@ class CogLoaderView(discord.ui.View):
 
 
 class CogUnloaderView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=20)
 
     @discord.ui.select(
         placeholder="Unload",
@@ -67,6 +73,8 @@ class CogUnloaderView(discord.ui.View):
 
 
 class CogReloaderView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=20)
 
     @discord.ui.select(
         placeholder="Reload",
@@ -87,25 +95,26 @@ class CogManagement(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    cogs = SlashCommandGroup("cogs", "Managing cogs")
+    cogs = SlashCommandGroup("cog", "Managing cogs")
 
     @cogs.command(description="Load a single cog")
     async def load(self, ctx):
         await ctx.respond(embed=discord.Embed(title=f"Loader", color=0x00FF42), view=CogLoaderView())
 
-    @cogs.command()
+    @cogs.command(description="Unload a single cog")
     async def unload(self, ctx):
         await ctx.respond(embed=discord.Embed(title=f"Unloader", color=0x00FF42), view=CogUnloaderView())
 
-    @cogs.command()
+    @cogs.command(description="Reload a single cog")
     async def reload(self, ctx):
         await ctx.respond(embed=discord.Embed(title=f"Reloader", color=0x00FF42), view=CogReloaderView())
 
-    @cogs.command()
+    @cogs.command(description="Reload all cogs")
     async def reloadall(self, ctx):
         for cog in getAllCogs():
             if cog == "src.cogs.dev.cogs.managing":
                 continue
+
             try:
                 self.bot.reload_extension(cog)
 
@@ -114,7 +123,7 @@ class CogManagement(commands.Cog):
 
         await ctx.respond(embed=discord.Embed(title=f"All loaded cogs have been reloaded", color=0x00FF42))
 
-    @cogs.command()
+    @cogs.command(description="Load all cogs")
     async def loadall(self, ctx):
         for cog in getAllCogs():
             try:
@@ -125,7 +134,7 @@ class CogManagement(commands.Cog):
 
         await ctx.respond(embed=discord.Embed(title=f"All cogs have been loaded", color=0x00FF42))
 
-    @cogs.command()
+    @cogs.command(description="List all cogs")
     async def list(self, ctx):
 
         unloaded, loaded = "", ""
@@ -140,6 +149,10 @@ class CogManagement(commands.Cog):
         embed.add_field(name="Loaded cogs", value=loaded)
         embed.add_field(name="Unloaded cogs", value=unloaded)
         await ctx.respond(embed=embed)
+
+    @cogs.command(description="List all cogs")
+    async def testing(self, ctx):
+        await ctx.respond(discord.AppInfo.guild)
 
 
 def setup(bot):
