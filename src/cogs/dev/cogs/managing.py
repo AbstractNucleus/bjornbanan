@@ -89,16 +89,7 @@ class CogManagement(commands.Cog):
 
     cogs = SlashCommandGroup("cogs", "Managing cogs")
 
-    @cogs.command()
-    async def list(self, ctx):
-        string = ""
-
-        for i in getAllCogs():
-            string += i+"\n"
-
-        await ctx.respond(string)
-
-    @cogs.command()
+    @cogs.command(description="Load a single cog")
     async def load(self, ctx):
         await ctx.respond(embed=discord.Embed(title=f"Loader", color=0x00FF42), view=CogLoaderView())
 
@@ -121,22 +112,34 @@ class CogManagement(commands.Cog):
             except:
                 continue
 
-        await ctx.edit(embed=discord.Embed(title=f"All loaded cogs have been reloaded", color=0x00FF42))
+        await ctx.respond(embed=discord.Embed(title=f"All loaded cogs have been reloaded", color=0x00FF42))
 
     @cogs.command()
     async def loadall(self, ctx):
         for cog in getAllCogs():
-
-            if cog == "src.cogs.dev.cogs.managing":
-                continue
-
             try:
                 self.bot.load_extension(cog)
 
             except:
                 continue
 
-        await ctx.edit(embed=discord.Embed(title=f"All cogs have been loaded", color=0x00FF42))
+        await ctx.respond(embed=discord.Embed(title=f"All cogs have been loaded", color=0x00FF42))
+
+    @cogs.command()
+    async def list(self, ctx):
+
+        unloaded, loaded = "", ""
+        all_cogs = getAllCogs()
+        for i in all_cogs:
+            if i not in self.bot.extensions:
+                unloaded += i + "\n"
+            else:
+                loaded += i + "\n"
+
+        embed = discord.Embed(title=f"Loaded cogs", color=0x00FF42)
+        embed.add_field(name="Loaded cogs", value=loaded)
+        embed.add_field(name="Unloaded cogs", value=unloaded)
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):
