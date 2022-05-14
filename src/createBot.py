@@ -20,6 +20,7 @@ def createBot():
 
     @bot.event
     async def on_ready():
-        print(f"{bot.user} is ready and online with{bot.commands}")
+        print(
+            f"{bot.user} is ready and online with {[i.name for i in bot.walk_application_commands()]}")
 
     return bot
