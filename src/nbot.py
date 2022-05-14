@@ -3,7 +3,7 @@ from discord.ext import commands
 import os
 
 
-def load_all_cogs(bot):
+def loadAllCogs(bot):
     paths, cogs = [], []
 
     for root, subdirs, files in os.walk("src/cogs"):
@@ -20,13 +20,19 @@ def load_all_cogs(bot):
         path = "src.cogs"
         for n, m in enumerate(paths[i]):
             path += f".{m}"
-        bot.load_extension(path)
+        try:
+            bot.load_extension(path)
+        except Exception as e:
+            ans = input(f"{path} could not be loaded. Print error?\n")
+            if ans:
+                for x, y in enumerate(e):
+                    pass
     return bot
 
 
 def nbot(prefix):
 
-    bot = load_all_cogs(
+    bot = loadAllCogs(
         discord.Bot(
             debug_guilds=[802298523214938153],
             help_command=commands.MinimalHelpCommand(),
