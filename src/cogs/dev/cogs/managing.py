@@ -15,8 +15,8 @@ def getAllCogs():
         paths += [os.path.join(root, file) for file in files]
     for i, j in enumerate(paths):
         paths[i] = j.split("/")
-        # paths[i] = j.split("\\")
-        # paths[i].remove("src/cogs")
+        paths[i] = j.split("\\")
+        paths[i].remove("src/cogs")
         paths[i][-1] = paths[i][-1][:-3]
         path = "src.cogs"
 
@@ -42,7 +42,7 @@ class CogLoaderView(discord.ui.View):
                 interaction.client.load_extension(select.values[0])
                 await interaction.response.edit_message(embed=discord.Embed(title=f"{select.values[0]} Loaded", color=0x00FF42))
 
-            except discord.errors.ExtensionAlreadyLoaded as e:
+            except discord.errors.ExtensionAlreadyLoaded:
                 await interaction.response.edit_message(embed=discord.Embed(title=f"{select.values[0]} Already loaded", color=0xFD3333))
 
         except Exception as e:
@@ -76,17 +76,11 @@ class CogReloaderView(discord.ui.View):
     )
     async def select_callback(self, select, interaction):
         try:
-            try:
-                interaction.client.unload_extension(select.values[0])
-                interaction.client.load_extension(select.values[0])
-
-            except:
-                interaction.client.load_extension(select.values[0])
-
+            interaction.client.reload_extension(select.values[0])
             await interaction.response.edit_message(embed=discord.Embed(title=f"{select.values[0]} Reloaded", color=0x00FF42))
 
-        except Exception as e:
-            await interaction.response.edit_message(embed=discord.Embed(title=f"{select.values[0]} is broken and cannot load", color=0xFD3333))
+        except:
+            await interaction.response.edit_message(embed=discord.Embed(title=f"{select.values[0]} Not loaded", color=0xFD3333))
 
 
 class CogManagement(commands.Cog):
@@ -106,7 +100,7 @@ class CogManagement(commands.Cog):
 
     @cogs.command()
     async def load(self, ctx):
-        await ctx.respond(embed=discord.Embed(title=f"Unloader", color=0x00FF42), view=CogLoaderView())
+        await ctx.respond(embed=discord.Embed(title=f"Loader", color=0x00FF42), view=CogLoaderView())
 
     @cogs.command()
     async def unload(self, ctx):
@@ -122,19 +116,27 @@ class CogManagement(commands.Cog):
             if cog == "src.cogs.dev.cogs.managing":
                 continue
             try:
-                self.bot.unload_extension(cog)
-                self.bot.load_extension(cog)
+                self.bot.reload_extension(cog)
 
             except:
-                self.bot.load_extension(cog)
+                continue
 
-        await ctx.edit(embed=discord.Embed(title=f"All cogs have been reloaded", color=0x00FF42))
-
-    # not done
+        await ctx.edit(embed=discord.Embed(title=f"All loaded cogs have been reloaded", color=0x00FF42))
 
     @cogs.command()
     async def loadall(self, ctx):
-        await ctx.respond("Hello, this is a slash subcommand from a cog!")
+        for cog in getAllCogs():
+
+            if cog == "src.cogs.dev.cogs.managing":
+                continue
+
+            try:
+                self.bot.load_extension(cog)
+
+            except:
+                continue
+
+        await ctx.edit(embed=discord.Embed(title=f"All cogs have been loaded", color=0x00FF42))
 
 
 def setup(bot):
