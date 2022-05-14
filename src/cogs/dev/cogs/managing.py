@@ -1,35 +1,31 @@
 import discord
 from discord.ext import commands
-from discord.commands import slash_command, SlashCommandGroup
+from discord.commands import SlashCommandGroup, Option
 import os
 
 
-class CogManagement(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+def getAllCogs():
+    paths, cogs = [], []
 
-    def loadAllCogs(bot):
-        paths, cogs = [], []
+    for root, subdirs, files in os.walk("src/cogs"):
+        if "__pycache__" in subdirs:
+            subdirs.remove("__pycache__")
 
-        for root, subdirs, files in os.walk("src/cogs"):
-            if "__pycache__" in subdirs:
-                subdirs.remove("__pycache__")
+        paths += [os.path.join(root, file) for file in files]
 
-            paths += [os.path.join(root, file) for file in files]
+    for i, j in enumerate(paths):
+        paths[i] = j.split("/")
+        paths[i] = j.split("\\")
+        paths[i].remove("src/cogs")
+        paths[i][-1] = paths[i][-1][:-3]
+        path = "src.cogs"
 
-        for i, j in enumerate(paths):
-            paths[i] = j.split("/")
-            paths[i] = j.split("\\")
-            paths[i].remove("src/cogs")
-            paths[i][-1] = paths[i][-1][:-3]
-            path = "src.cogs"
+        for n, m in enumerate(paths[i]):
+            path += f".{m}"
 
-            for n, m in enumerate(paths[i]):
-                path += f".{m}"
+        cogs.append(path)
 
-            cogs.append(path)
-
-            '''try:
+        '''try:
                 bot.load_extension(path)
 
             except Exception as e:
@@ -41,13 +37,64 @@ class CogManagement(commands.Cog):
                 if ans == "n":
                     exit()'''
 
-        return bot
+    return cogs
+
+
+class MyView(discord.ui.View):
+
+    options = []
+
+    for i in getAllCogs():
+        options.append(discord.SelectOption(value=i))
+
+    @discord.ui.select(
+        placeholder="Load a cog",
+        min_values=1,
+        max_values=1,
+        options=options
+    )
+    async def select_callback(self, select, interaction):
+        try:
+            interaction.client.load_extension(select.values[0])
+            await interaction.response.send_message(f"{select.values[0]} has been loaded")
+
+        except discord.errors.ExtensionAlreadyLoaded as e:
+            await interaction.response.send_message(f"{select.values[0]} is already loaded")
+
+
+class CogManagement(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
 
     cogs = SlashCommandGroup("cogs", "Managing cogs")
 
     @cogs.command()
     async def list(self, ctx):
-        await ctx.respond("Byebye")
+        string = ""
+        for i in getAllCogs():
+            string += i+"\n"
+        await ctx.respond(string)
+
+    @cogs.command()
+    async def load(self, ctx, cog=None):
+        if cog == None:
+            await ctx.respond("Yo", view=MyView())
+        else:
+            print(cog)
+            try:
+                self.bot.load_extension(cog)
+                await ctx.respond(f"{cog} has been loaded")
+            except Exception as e:
+                raise(e)
+
+    @cogs.command()
+    async def unload(self, ctx):
+
+        await ctx.respond("Yo")
+
+    @cogs.command()
+    async def loadall(self, ctx):
+        await ctx.respond("Hello, this is a slash subcommand from a cog!")
 
 
 def setup(bot):
