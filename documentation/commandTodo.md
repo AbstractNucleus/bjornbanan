@@ -29,8 +29,10 @@
 - errorHandling[]
 - git[x]
   Pull from remote
-- presence []
-  Change presence from remote
+- status[x]
+  online, offline etc
+- activity []
+  game, watcheiong etc
 - rateLimit[]
   Error when being ratelimted
 - upTime[x]
