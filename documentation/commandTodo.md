@@ -2,8 +2,10 @@
 
 ## admin[]
 
-- joinRoles[]
-  Add roles when user joins or rejoins.
+- joinRoles[x]
+  Add roles when user joins
+- keepRolesOneLeave[]
+  Add roles to user who have left
 - manageCommands[]
   Admins in server can enable and disable commands in the server
 - reactionRoles[]
@@ -33,16 +35,16 @@
   online, offline etc
 - activity []
   game, watcheiong etc
-- rateLimit[]
+- rateLimit[X] #TODO test it
   Error when being ratelimted
 - upTime[x]
 
-## games[]
+## games[x]
 
-- diceroll[]
+- diceroll[x]
   Something here
 
-## league
+## league[]
 
 - recommendTeams[]
   Get a team recommendation and record the result
