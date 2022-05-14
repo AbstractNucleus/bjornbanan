@@ -1,4 +1,5 @@
 import discord
+from discord.ext import commands
 import os
 
 
@@ -23,8 +24,16 @@ def load_all_cogs(bot):
     return bot
 
 
-def nbot():
-    bot = load_all_cogs(discord.Bot(debug_guilds=[802298523214938153]))
+def nbot(prefix):
+
+    bot = load_all_cogs(
+        discord.Bot(
+            debug_guilds=[802298523214938153],
+            help_command=commands.MinimalHelpCommand(),
+            command_prefix=prefix,
+            intents=discord.Intents.all()
+        )
+    )
 
     @bot.event
     async def on_ready():
