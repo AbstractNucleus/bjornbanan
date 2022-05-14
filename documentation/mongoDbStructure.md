@@ -1,5 +1,7 @@
 # mongoDB
 
+Databasename is bjornbananv2.
+
 ## Structure
 
 The sor is always included as type.
@@ -14,7 +16,7 @@ GuildId is always included in config as guildId.
 
 [prefix]
 
-#### JoinRoles
+#### joinRoles
 
 [roleId]
 
