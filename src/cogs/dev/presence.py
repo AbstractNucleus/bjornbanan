@@ -1,36 +1,25 @@
 import discord
 from discord.ext import commands
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
 
 
 class statusChoice(discord.ui.View):
+    statuses = ["online", "offline", "do not disturb", "idle", "streaming"]
+
     @discord.ui.select(
         placeholder="Choose a status",
         min_values=1,
         max_values=1,
-        options=[
-            discord.SelectOption(
-                label="online",
-                value='0'
-            ),
-            discord.SelectOption(
-                label="offline",
-                value='1'
-            ),
-            discord.SelectOption(
-                label="idle",
-                value='2'
-            ),
-            discord.SelectOption(
-                label="dnd",
-                value='3'
-            )
-        ]
+        options=[discord.SelectOption(label=j, value=str(i)) for i, j in enumerate(statuses)]
     )
     async def select_callback(self, select, interaction):
         statuses = [discord.Status.online, discord.Status.offline,
-                    discord.Status.idle, discord.Status.dnd, discord.Status.streaming]
+                    discord.Status.dnd, discord.Status.idle, discord.Status.streaming]
         await interaction.client.change_presence(status=statuses[int(select.values[0])])
-        await interaction.message.edit_message(embed=discord.Embed(title=f"Changed status to {statuses[int(select.values[0])]}", color=0x00FF42))
+        await interaction.response.edit_message(embed=discord.Embed(title=f"Changed status to {statuses[int(select.values[0])]}", color=0x00FF42))
 
 
 class presence(commands.Cog):
@@ -39,11 +28,11 @@ class presence(commands.Cog):
         self.bot = bot
 
     @discord.slash_command()
-    async def status(self, ctx):
-        if not str(ctx.author.id) == "243022798543519745" and not str(ctx.author.id) == "212483159659380739":
+    async def presence(self, ctx):
+        if str(ctx.author.id) not in getenv("OWNERS"):
             await ctx.respond(embed=discord.Embed(title="You dont have access to this command", color=0xFD3333))
-            return
-        await ctx.respond(embed=discord.Embed(title=f"Change presence", color=0x00FF42), view=statusChoice())
+        else:
+            await ctx.respond(embed=discord.Embed(title=f"Change presence", color=0x00FF42), view=statusChoice())
 
 
 def setup(bot):

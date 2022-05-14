@@ -28,12 +28,6 @@ def getAllCogs():
 
 
 class CogLoaderView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=20)
-
-    async def on_timeout(self):
-        await self.message.delete()
-
     @discord.ui.select(
         placeholder="Load",
         min_values=1,
@@ -54,9 +48,6 @@ class CogLoaderView(discord.ui.View):
 
 
 class CogUnloaderView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=20)
-
     @discord.ui.select(
         placeholder="Unload",
         min_values=1,
@@ -73,9 +64,6 @@ class CogUnloaderView(discord.ui.View):
 
 
 class CogReloaderView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=20)
-
     @discord.ui.select(
         placeholder="Reload",
         min_values=1,
@@ -145,14 +133,11 @@ class CogManagement(commands.Cog):
             else:
                 loaded += i + "\n"
 
-        embed = discord.Embed(title=f"Loaded cogs", color=0x00FF42)
+        embed = discord.Embed(color=0x00FF42)
         embed.add_field(name="Loaded cogs", value=loaded)
         embed.add_field(name="Unloaded cogs", value=unloaded)
-        await ctx.respond(embed=embed)
 
-    @cogs.command(description="List all cogs")
-    async def testing(self, ctx):
-        await ctx.respond(discord.AppInfo.guild)
+        await ctx.respond(embed=embed)
 
 
 def setup(bot):

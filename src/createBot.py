@@ -3,8 +3,8 @@ from discord.ext import commands
 
 
 def initBot(bot):
-    bot.load_extension("src.cogs.dev.cogs.managing")
-    # bot.load_extension("src.cogs.games.leagueRecommendTeams")
+    dev = ["cogs", "upTime", "git", "presence", "rateLimit"]
+    [bot.load_extension(f"src.cogs.dev.{i}") for i in dev]
     return bot
 
 
