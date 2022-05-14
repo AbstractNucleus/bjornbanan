@@ -42,24 +42,19 @@ def getAllCogs():
 
 class MyView(discord.ui.View):
 
-    options = []
-
-    for i in getAllCogs():
-        options.append(discord.SelectOption(value=i))
-
     @discord.ui.select(
         placeholder="Load a cog",
         min_values=1,
         max_values=1,
-        options=options
+        options=[discord.SelectOption(label=i) for i in getAllCogs()]
     )
     async def select_callback(self, select, interaction):
         try:
             interaction.client.load_extension(select.values[0])
-            await interaction.response.send_message(f"{select.values[0]} has been loaded")
+            await interaction.response.send_message(embed=discord.Embed(title=f"{select.values[0]} has been loaded", color=0x00FF42))
 
         except discord.errors.ExtensionAlreadyLoaded as e:
-            await interaction.response.send_message(f"{select.values[0]} is already loaded")
+            await interaction.response.send_message(embed=discord.Embed(title=f"{select.values[0]} is already loaded", color=0xFD3333))
 
 
 class CogManagement(commands.Cog):
@@ -76,8 +71,9 @@ class CogManagement(commands.Cog):
         await ctx.respond(string)
 
     @cogs.command()
-    async def load(self, ctx, cog=None):
-        if cog == None:
+    async def load(self, ctx, cog: str):
+        print(cog)
+        if cog is None:
             await ctx.respond("Yo", view=MyView())
         else:
             print(cog)
