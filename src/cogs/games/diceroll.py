@@ -12,7 +12,7 @@ class diceRoll(commands.Cog):
     async def diceroll(self, ctx, sides: int = 6):
         embed = discord.Embed(color=0x00FF42)
         embed.add_field(
-            name=f'You rolled an {randint(1,sides)} on a {sides} sided dice.', value='a')
+            name=f'You rolled a {sides} sided dice', value=f'and got {randint(1,sides)}')
         await ctx.respond(embed=embed)
 
 
