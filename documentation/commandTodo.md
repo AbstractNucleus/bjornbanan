@@ -27,15 +27,13 @@
 - cogManager[]
   Enable/disable/reload cogs, both induvidially and all.
 - errorHandling[]
-- git[x](not tested)
+- git[x]
   Pull from remote
-- mongoDbUpdate[]
-  Dont know why
 - presence []
   Change presence from remote
 - rateLimit[]
   Error when being ratelimted
-- upTime[]
+- upTime[x]
 
 ## games[]
 
