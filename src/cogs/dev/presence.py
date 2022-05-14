@@ -30,9 +30,7 @@ class statusChoice(discord.ui.View):
         statuses = [discord.Status.online, discord.Status.offline,
                     discord.Status.idle, discord.Status.dnd, discord.Status.streaming]
         await interaction.client.change_presence(status=statuses[int(select.values[0])])
-        # await interaction.message.edit(embed=discord.Embed(title=f"Changed status to {statuses[int(select.values[0])]}", color=0x00FF42))
-        # TODO this makes interactions fail. Needs to respond to not fail.
-        await interaction.response.send_message(f"Changed status to {statuses[int(select.values[0])]}")
+        await interaction.message.edit_message(embed=discord.Embed(title=f"Changed status to {statuses[int(select.values[0])]}", color=0x00FF42))
 
 
 class presence(commands.Cog):
