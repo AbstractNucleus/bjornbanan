@@ -1,13 +1,9 @@
-from src.nbot import nbot
+from src.createBot import createBot
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-if os.getenv('PREFIX'):
-    prefix = os.getenv('PREFIX')
-else:
-    prefix = '.'
-
+bot = createBot()
 
 if __name__ == '__main__':
-    nbot(prefix).run(os.getenv('TOKEN'))
+    bot.run(os.getenv('TOKEN'))

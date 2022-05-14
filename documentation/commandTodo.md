@@ -2,8 +2,6 @@
 
 ## admin[]
 
-- setPrefix[]
-  Set custom prefix guild wide
 - joinRoles[]
   Add roles when user joins or rejoins.
 - manageCommands[]
