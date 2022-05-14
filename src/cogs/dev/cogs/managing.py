@@ -40,7 +40,7 @@ def getAllCogs():
     return cogs
 
 
-class MyView(discord.ui.View):
+class CogLoaderView(discord.ui.View):
 
     @discord.ui.select(
         placeholder="Load a cog",
@@ -66,22 +66,15 @@ class CogManagement(commands.Cog):
     @cogs.command()
     async def list(self, ctx):
         string = ""
+
         for i in getAllCogs():
             string += i+"\n"
+
         await ctx.respond(string)
 
     @cogs.command()
-    async def load(self, ctx, cog: str):
-        print(cog)
-        if cog is None:
-            await ctx.respond("Yo", view=MyView())
-        else:
-            print(cog)
-            try:
-                self.bot.load_extension(cog)
-                await ctx.respond(f"{cog} has been loaded")
-            except Exception as e:
-                raise(e)
+    async def load(self, ctx):
+        await ctx.respond("Yo", view=CogLoaderView())
 
     @cogs.command()
     async def unload(self, ctx):
