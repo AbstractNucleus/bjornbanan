@@ -47,7 +47,7 @@ class Info(commands.Cog):
     async def bot(self, ctx):
         bot = await self.bot.application_info()
         embed = discord.Embed(title=bot.name, description=self.bot.description,
-                              color=self.bot.color)
+                              color=self.bot.user.color)
 
         embed.add_field(name='ID', value=bot.id)
         embed.add_field(name='Guilds', value=len(self.bot.guilds))
