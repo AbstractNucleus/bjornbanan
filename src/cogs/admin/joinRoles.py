@@ -4,7 +4,7 @@ from discord.commands import SlashCommandGroup
 from pymongo import MongoClient
 
 
-async def defaultJoinRoles(self, member):
+async def defaultJoinRoles(member):
     guild = member.guild
     configColl = MongoClient('localhost', 27017).bjornbananv2.config
     query = {'type': 'joinRoles', 'guildId': guild.id}
@@ -79,10 +79,10 @@ class joinRoles(commands.Cog):
             embed.add_field(name=f'{roleObject}', value="\u200b")
         await ctx.respond(embed=embed)
 
-    keepRolesOnLeave = SlashCommandGroup(
-        "keeprolesonleave", 'Automaticly add roles to users who leave and join')
+    persistent = SlashCommandGroup(
+        "persistent", 'Automaticly add roles to users who leave and join')
 
-    @keepRolesOnLeave.command()  # FIXME waiting for rolelog
+    @persistent.command()  # FIXME waiting for rolelog
     async def enable(self, ctx):
         configColl = MongoClient('localhost', 27017).bjornbananv2.config
         query = {'type': 'keepRolesOnLeave', 'guildId': ctx.guild_id}
@@ -93,7 +93,7 @@ class joinRoles(commands.Cog):
             return
         await ctx.respond(embed=discord.Embed(title="Already enabled", color=0xFD3333))
 
-    @keepRolesOnLeave.command()  # FIXME waiting for rolelog
+    @persistent.command()  # FIXME waiting for rolelog
     async def disable(self, ctx):
         configColl = MongoClient('localhost', 27017).bjornbananv2.config
         query = {'type': 'keepRolesOnLeave', 'guildId': ctx.guild_id}

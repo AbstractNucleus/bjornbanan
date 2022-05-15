@@ -12,7 +12,6 @@ def createBot():
 
     bot = initBot(
         discord.Bot(
-            debug_guilds=[802298523214938153],
             help_command=commands.MinimalHelpCommand(),
             intents=discord.Intents.all(),
         )
