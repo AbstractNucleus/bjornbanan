@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from git import Repo
 import os
+from ...lib.perms import isOwner, PermissionDeniedEmbed
 
 
 class Git(commands.Cog):
@@ -11,8 +12,8 @@ class Git(commands.Cog):
 
     @discord.slash_command()
     async def gitpull(self, ctx):
-        if not str(ctx.author.id) == "243022798543519745" and not str(ctx.author.id) == "212483159659380739":
-            await ctx.respond(embed=discord.Embed(title="You dont have access to this command", color=0xFD3333))
+        if not isOwner(ctx.author.id):
+            await PermissionDeniedEmbed(ctx)
             return
 
         try:
