@@ -6,7 +6,7 @@ from pymongo import MongoClient
 
 async def defaultJoinRoles(member):
     guild = member.guild
-    configColl = MongoClient('localhost', 27017).bjornbananv2.config
+    configColl = MongoClient('localhost', 27017).bjornbanan.config
     query = {'type': 'joinRoles', 'guildId': guild.id}
     roles = list(configColl.find(query))
 
