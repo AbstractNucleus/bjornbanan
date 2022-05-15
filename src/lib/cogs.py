@@ -14,11 +14,11 @@ def getAllCogs():
         # paths[i] = j.split("\\")     for windows paths
         # paths[i].remove("src/cogs")
         paths[i][-1] = paths[i][-1][:-3]
-        path = "src.cogs"
+        path = ""
 
         for n, m in enumerate(paths[i]):
-            path += f".{m}"
-
-        cogs.append(path)
+            path += f"{m}."
+        
+        cogs.append(path[:-1])
 
     return cogs
