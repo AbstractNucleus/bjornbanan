@@ -110,7 +110,7 @@ class CogManagement(commands.Cog):
     async def list(self, ctx):
         unloaded, loaded = "", ""
         all_cogs = getAllCogs()
-        
+
         for i in all_cogs:
             if i not in self.bot.extensions:
                 unloaded += i + "\n"
