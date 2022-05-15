@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from os import getenv
-from ...lib.perms import isOwner, PermissionDeniedEmbed
+from ...lib.perms import isOwner
 
 load_dotenv()
 
@@ -28,12 +28,9 @@ class presence(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command()
+    @discord.command()
+    @isOwner()
     async def presence(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         await ctx.respond(embed=discord.Embed(title=f"Change presence", color=0x00FF42), view=statusChoice())
 
 

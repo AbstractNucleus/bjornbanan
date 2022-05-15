@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord.commands import SlashCommandGroup, SlashCommand
 from ...lib.cogs import getAllCogs
-from ...lib.perms import isOwner, PermissionDeniedEmbed
+from ...lib.perms import isOwner
 
 
 class CogLoaderView(discord.ui.View):
@@ -64,35 +64,23 @@ class CogManagement(commands.Cog):
     cogs = SlashCommandGroup("cog", "Managing cogs")
 
     @cogs.command(description="Load a single cog")
+    @isOwner()
     async def load(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         await ctx.respond(embed=discord.Embed(title=f"Loader", color=0x00FF42), view=CogLoaderView())
 
     @cogs.command(description="Unload a single cog")
+    @isOwner()
     async def unload(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         await ctx.respond(embed=discord.Embed(title=f"Unloader", color=0x00FF42), view=CogUnloaderView())
 
     @cogs.command(description="Reload a single cog")
+    @isOwner()
     async def reload(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         await ctx.respond(embed=discord.Embed(title=f"Reloader", color=0x00FF42), view=CogReloaderView())
 
     @cogs.command(description="Reload all cogs")
+    @isOwner()
     async def reloadall(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         for cog in getAllCogs():
             if cog == "src.cogs.dev.cogs.managing":
                 continue
@@ -106,11 +94,8 @@ class CogManagement(commands.Cog):
         await ctx.respond(embed=discord.Embed(title=f"All loaded cogs have been reloaded", color=0x00FF42))
 
     @cogs.command(description="Load all cogs")
+    @isOwner()
     async def loadall(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         for cog in getAllCogs():
             try:
                 self.bot.load_extension(cog)
@@ -121,11 +106,8 @@ class CogManagement(commands.Cog):
         await ctx.respond(embed=discord.Embed(title=f"All cogs have been loaded", color=0x00FF42))
 
     @cogs.command(description="List all cogs")
+    @isOwner()
     async def list(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         unloaded, loaded = "", ""
         all_cogs = getAllCogs()
 

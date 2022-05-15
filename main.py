@@ -1,6 +1,8 @@
-from src.createBot import createBot
 import os
 from dotenv import load_dotenv
+
+from src.createBot import createBot
+import src.cogs.dev.logging
 
 load_dotenv()
 bot = createBot()

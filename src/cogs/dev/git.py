@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from git import Repo
 import os
-from ...lib.perms import isOwner, PermissionDeniedEmbed
+from ...lib.perms import isOwner
 
 
 class Git(commands.Cog):
@@ -10,12 +10,9 @@ class Git(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command()
+    @discord.command(description="Remote git pull")
+    @isOwner()
     async def gitpull(self, ctx):
-        if not isOwner(ctx.author.id):
-            await PermissionDeniedEmbed(ctx)
-            return
-
         try:
             repo = Repo(os.getcwd())
             repo.git.pull()

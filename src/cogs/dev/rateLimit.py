@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 
-class rateLimit(commands.Cog):
+class RateLimit(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -13,4 +13,4 @@ class rateLimit(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(rateLimit(bot))
+    bot.add_cog(RateLimit(bot))
