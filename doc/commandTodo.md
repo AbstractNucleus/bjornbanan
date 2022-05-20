@@ -1,39 +1,37 @@
 # commands to implement
 
-## admin[]
-
 - joinRoles[x]
   Add roles when user joins
-- keepRolesOneLeave[]
+- persistentRoles[ ]
   Add roles to user who have left
-- manageCommands[]
+- manageCommands[ ]
   Admins in server can enable and disable commands in the server
-- reactionRoles[]
+- reactionRoles[ ]
   Have message where you can give yourself roles
-- roleManagement[]
+- roleManagement[ ]
   Add and remove roles from a command
-- selfCommandRoles[]
+- selfCommandRoles[ ]
   A command to show reactionRoles(select which)
 
-## channels[]
+## channels[ ]
 
-- betterVc[]
+- betterVc[ ]
   Hide channels without anyone in
-- deletePinned[]
+- deletePinned[ ]
   Deletes the 'pinned message' message
-- deletingChannel[]
+- deletingChannel[ ]
   A channel that clears itself all the time
 
-## dev[]
+## dev[ ]
 
-- cogManager[]
+- cogManager[ ]
   Enable/disable/reload cogs, both induvidially and all.
-- errorHandling[]
+- errorHandling[ ]
 - git[x]
   Pull from remote
 - status[x]
   online, offline etc
-- activity []
+- activity [ ]
   game, watcheiong etc
 - rateLimit[X] #TODO test it
   Error when being ratelimted
@@ -44,21 +42,21 @@
 - diceroll[x]
   Something here
 
-## league[]
+## league[ ]
 
-- recommendTeams[]
+- recommendTeams[ ]
   Get a team recommendation and record the result
 
-## moderation[]
+## moderation[ ]
 
-- ban[]
-- kick[]
-- tempban[]
-- ticket[]
+- ban[ ]
+- kick[ ]
+- tempban[ ]
+- ticket[ ]
 
-## stats[]
+## stats[ ]
 
-- vcStats[]
-- tcStats[]
-- vcStatsDisplay[]
-- tcStatsDisplay[]
+- vcStats[ ]
+- tcStats[ ]
+- vcStatsDisplay[ ]
+- tcStatsDisplay[ ]
