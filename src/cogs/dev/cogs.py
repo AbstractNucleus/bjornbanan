@@ -1,35 +1,11 @@
 import discord
 from discord.ext import commands
-from discord.commands import SlashCommandGroup, Option
-import os
-from asyncio import sleep
-
-
-def getAllCogs():
-    paths, cogs = [], []
-
-    for root, subdirs, files in os.walk("src/cogs"):
-        if "__pycache__" in subdirs:
-            subdirs.remove("__pycache__")
-
-        paths += [os.path.join(root, file) for file in files]
-    for i, j in enumerate(paths):
-        paths[i] = j.split("/")
-        paths[i] = j.split("\\")
-        paths[i].remove("src/cogs")
-        paths[i][-1] = paths[i][-1][:-3]
-        path = "src.cogs"
-
-        for n, m in enumerate(paths[i]):
-            path += f".{m}"
-
-        cogs.append(path)
-
-    return cogs
+from discord.commands import SlashCommandGroup, SlashCommand
+from ...lib.cogs import getAllCogs
+from ...lib.perms import isOwner
 
 
 class CogLoaderView(discord.ui.View):
-
     @discord.ui.select(
         placeholder="Load",
         min_values=1,
@@ -50,7 +26,6 @@ class CogLoaderView(discord.ui.View):
 
 
 class CogUnloaderView(discord.ui.View):
-
     @discord.ui.select(
         placeholder="Unload",
         min_values=1,
@@ -67,7 +42,6 @@ class CogUnloaderView(discord.ui.View):
 
 
 class CogReloaderView(discord.ui.View):
-
     @discord.ui.select(
         placeholder="Reload",
         min_values=1,
@@ -87,25 +61,30 @@ class CogManagement(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    cogs = SlashCommandGroup("cogs", "Managing cogs")
+    cogs = SlashCommandGroup("cog", "Managing cogs")
 
     @cogs.command(description="Load a single cog")
+    @isOwner()
     async def load(self, ctx):
         await ctx.respond(embed=discord.Embed(title=f"Loader", color=0x00FF42), view=CogLoaderView())
 
-    @cogs.command()
+    @cogs.command(description="Unload a single cog")
+    @isOwner()
     async def unload(self, ctx):
         await ctx.respond(embed=discord.Embed(title=f"Unloader", color=0x00FF42), view=CogUnloaderView())
 
-    @cogs.command()
+    @cogs.command(description="Reload a single cog")
+    @isOwner()
     async def reload(self, ctx):
         await ctx.respond(embed=discord.Embed(title=f"Reloader", color=0x00FF42), view=CogReloaderView())
 
-    @cogs.command()
+    @cogs.command(description="Reload all cogs")
+    @isOwner()
     async def reloadall(self, ctx):
         for cog in getAllCogs():
             if cog == "src.cogs.dev.cogs.managing":
                 continue
+
             try:
                 self.bot.reload_extension(cog)
 
@@ -114,7 +93,8 @@ class CogManagement(commands.Cog):
 
         await ctx.respond(embed=discord.Embed(title=f"All loaded cogs have been reloaded", color=0x00FF42))
 
-    @cogs.command()
+    @cogs.command(description="Load all cogs")
+    @isOwner()
     async def loadall(self, ctx):
         for cog in getAllCogs():
             try:
@@ -125,20 +105,22 @@ class CogManagement(commands.Cog):
 
         await ctx.respond(embed=discord.Embed(title=f"All cogs have been loaded", color=0x00FF42))
 
-    @cogs.command()
+    @cogs.command(description="List all cogs")
+    @isOwner()
     async def list(self, ctx):
-
         unloaded, loaded = "", ""
         all_cogs = getAllCogs()
+
         for i in all_cogs:
             if i not in self.bot.extensions:
                 unloaded += i + "\n"
             else:
                 loaded += i + "\n"
 
-        embed = discord.Embed(title=f"Loaded cogs", color=0x00FF42)
+        embed = discord.Embed(color=0x00FF42)
         embed.add_field(name="Loaded cogs", value=loaded)
         embed.add_field(name="Unloaded cogs", value=unloaded)
+
         await ctx.respond(embed=embed)
 
 

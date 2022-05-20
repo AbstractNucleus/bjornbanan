@@ -36,10 +36,10 @@ class removePlayer(discord.ui.View):
         await interaction.message.edit_message(embed=discord.Embed(title=f"Changed status to {statuses[int(select.values[0])]}", color=0x00FF42))
 
 
-class leagueRecommendTeams(commands.Cog):
-
+class LeagueRecommendTeams(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
     teamRecommendation = SlashCommandGroup(
         'teamrecommendation', 'Give custom games league recommendation')
 
@@ -69,4 +69,4 @@ class leagueRecommendTeams(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(leagueRecommendTeams(bot))
+    bot.add_cog(LeagueRecommendTeams(bot))
