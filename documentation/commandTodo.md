@@ -26,14 +26,14 @@
 
 ## dev[]
 
-- cogManager[]
+- cogManager[x]
   Enable/disable/reload cogs, both induvidially and all.
 - errorHandling[]
 - git[x]
   Pull from remote
 - status[x]
   online, offline etc
-- activity []
+- activity [x]
   game, watcheiong etc
 - rateLimit[X] #TODO test it
   Error when being ratelimted
